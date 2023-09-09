@@ -30,8 +30,6 @@ export function ContactForm({ handleSubmit }) {
       name: name,
       number: number,
     };
-    // console.log(this.props.handleSubmit);
-    // this.setState({ name: '', number: '' });
     setName('');
     setNumber('');
     handleSubmit(contact);

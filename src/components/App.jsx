@@ -2,60 +2,29 @@ import { useEffect, useState } from 'react';
 import { GlobalStyle } from './GlobalStyle';
 import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
-// import { nanoid } from 'nanoid';
 import { Filter } from './Filter/Filter';
 import { Container } from './App.styled';
 
 export function App() {
-  const [contacts, setContacts] = useState([]);
-  const [filter, setFilter] = useState('');
-  const [mount, setMount] = useState(true);
-
-  // state = {
-  //   contacts: [
-  //     { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-  //     { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-  //     { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-  //     { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-  //   ],
-  //   filter: '',
-  // };
-
-  useEffect(() => {
+  const initialContacts = () => {
     const contactsParsed = JSON.parse(localStorage.getItem('contacts'));
     if (!contactsParsed) {
-      setContacts([
+      return [
         { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
         { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
         { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
         { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-      ]);
-      return;
+      ];
     }
-    setContacts([...contactsParsed]);
-  }, []);
+    return [...contactsParsed];
+  };
 
-  // componentDidMount() {
-  //   const contactsParsed = JSON.parse(localStorage.getItem('contacts'));
-  //   if (!contactsParsed) {
-  //     return;
-  //   }
-  //   this.setState({ contacts: [...contactsParsed] });
-  // }
+  const [contacts, setContacts] = useState(initialContacts());
+  const [filter, setFilter] = useState('');
 
   useEffect(() => {
-    if (mount) {
-      setMount(false);
-      return;
-    }
     localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts, mount]);
-
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (this.state.contacts !== prevState) {
-  //     localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
-  //   }
-  // }
+  }, [contacts]);
 
   const handleChange = e => {
     setFilter(e.currentTarget.value);
